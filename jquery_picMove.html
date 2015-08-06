@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jquery图片无限滚动</title>
+	<meta charset="utf-8" />
+	<style>
+	#demo{  width: 500px;height: 120px; margin:0px auto;border:1px #069 solid;overflow:hidden; }
+	#demo ul{ list-style: none;margin:0px;padding:0px;width: 1000px; }
+	#demo ul li{ float: left;width:100px; }
+	#demo ul li img{ border:10px #fff solid;width: 80px;height: 80px; }
+	#demo ul li a{ text-decoration: none;font-size: 14px;text-align: center; }
+	</style>
+</head>
+<body>
+	<div id="demo">
+        <div id="demo1">
+        	<ul>
+        		<li><a href=""><img src="head.png" alt="" /></a></li>
+        		<li><a href=""><img src="head.png" alt="" /></a></li>
+        		<li><a href=""><img src="head.png" alt="" /></a></li>
+        		<li><a href=""><img src="head.png" alt="" /></a></li>
+        		<li><a href=""><img src="head.png" alt="" /></a></li>
+        	</ul>
+        </div>
+        <div id="demo2"></div>
+    </div>
+	<script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+	(function($){
+		$.fn.extend({
+			picMove : function(options){
+				var setting = $.extend({}, { speed:30, demo1 : $("#demo1"), demo2 : $("#demo2")}, options);
+
+			    var demo = $(this);
+				var speed = setting.speed;
+			    var demo1 = setting.demo1;
+			    var demo2 = setting.demo2;
+			    var pic; //句柄
+
+				demo2.html(demo1.html());
+
+			    function Marquee(){ 
+			        if(demo.scrollLeft()>=demo1.width())
+			            demo.scrollLeft(0); 
+			        else{
+			            demo.scrollLeft(demo.scrollLeft()+1);
+			        }
+			    } 
+
+			    pic=setInterval(Marquee,speed);
+
+			    demo.mouseover(function() {
+			        clearInterval(pic);
+			    } );
+			    demo.mouseout(function() {
+			        pic=setInterval(Marquee,speed);
+			    } );
+
+			}
+		});
+	})(jQuery);
+
+	$('#demo').picMove({speed:10});
+	</script>
+</body>
+</html>
